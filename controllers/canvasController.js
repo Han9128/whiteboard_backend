@@ -23,6 +23,7 @@ const createCanvas = async (req,res)=>{
     try{
         const userId = req.user.id;
         const canvas = new Canvas({
+            name:req.body.name,
             owner:userId,
             sharedWith:[],
             elements:[]
