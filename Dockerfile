@@ -1,6 +1,6 @@
 
 # 1. Choose a lightweight base image. First we choose a base image (blueprint).
-# it is a kind of tiny os (here alpine linux) enough to install dependencies and run the server.
+# it is a kind of tiny os (here alpine linux an existing image) enough to install dependencies and run the server.
 # [LANGUAGE_NAME]:[VERSION_NUMBER]-[OS_VARIANT]
 FROM node:20-alpine
 
@@ -32,3 +32,13 @@ EXPOSE 5000
 
 # 7. Define the command to start your server
 CMD ["npm","start"]
+
+# now by running build we create our own backend image using node:20-alpine as base image 
+# (template for creating containers)
+# it basically says give the image a name whiteboard_backend_image and . means use the current directory i am in
+# docker build -t whiteboard-backend .
+
+
+# Now we create the container using the image we built, for local testing proving .env file in command but 
+# in production this is not done. first port (5000) is host/compute port the second port (5000) is container port
+# docker run --env-file .env -p 5000:5000 whiteboard-backend
