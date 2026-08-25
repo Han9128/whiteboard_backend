@@ -8,7 +8,7 @@ const canvasRouter = require('./routes/canvasRoute');
 const connectDb = require('./config/db');
 const {setUpSocket} = require('./websocket/socket')
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 
 
