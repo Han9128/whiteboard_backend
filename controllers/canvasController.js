@@ -109,18 +109,18 @@ const shareCanvas = async (req,res)=>{
         const canvas = await Canvas.findById(canvasId);
 
         if(!canvas){
-            return res.status(404).json({error:"Canvas Not Found"});
+            return res.status(404).json({message:"Canvas Not Found"});
         }
 
         const canShare = canvas.owner._id.toString() === userId;
         if(!canShare){
-            return res.status(403).json({error:"Unauthorized to share"});
+            return res.status(403).json({message:"Unauthorized to share"});
         }
 
         const sharedEmail = req.body.email;
         const sharedUser = await User.findOne({email:sharedEmail});
         if(!sharedUser){
-            return res.status(404).json({error:"User does not exist"})
+            return res.status(404).json({message:"User does not exist"})
         }
 
         if(sharedUser._id.equals(userId)){
