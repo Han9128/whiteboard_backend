@@ -27,7 +27,7 @@ app.use('/api/canvas',canvasRouter)
 
 // app.listen internally create and return the http server
 const server = app.listen(PORT,()=>{ 
-    console.log(`Server is listening on port ${PORT}`)
+    console.log(`Server is listening on port ${PORT}`);
 });
 
 setUpSocket(server);
