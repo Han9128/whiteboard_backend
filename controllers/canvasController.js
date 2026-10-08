@@ -14,7 +14,8 @@ const getCanvases = async (req,res)=>{
 
         return res.status(200).json({canvases});
     } catch(error){
-        return res.status(500).json({error:error.message})
+        console.error(error);
+        return res.status(500).json({message:"Something went wrong"});
     }
 }
 
@@ -32,7 +33,8 @@ const createCanvas = async (req,res)=>{
         await canvas.save();
         return res.status(201).json({message:"Canvas creates sucessfully",canvasId:canvas._id})
     }catch(error){
-        return res.status(500).json({error:"Failed to create canvas",detail:error.message})
+        console.error(error);
+        return res.status(500).json({message:"Failed to create canvas"})
     }
 }
 
@@ -87,18 +89,19 @@ const deleteCanvas = async (req,res)=>{
         const canvasId = req.params.id;
         const canvas = await Canvas.findById(canvasId);
         if(!canvas){
-            return res.status(404).json({error:"Canvas not found"});
+            return res.status(404).json({message:"Canvas not found"});
         }
 
         const canDelete = canvas.owner._id.toString() === userId
         if(!canDelete){
-            return res.status(403).json({error:"Unauthorized to delete"}); // 401 is used if user is not authenticated, here user is authenticated but not authorized to delete so 403 used
+            return res.status(403).json({message:"Unauthorized to delete"}); // 401 is used if user is not authenticated, here user is authenticated but not authorized to delete so 403 used
         }
 
         await Canvas.findByIdAndDelete(canvasId)
         return res.status(200).json({message:"Canvas deleted"});
     }catch(error){
-        return res.status(500).json({error:"Failed to delete the canvas",detail:error.message})
+        console.error(error);
+        return res.status(500).json({message:"Something went wrong, failed to delete the canvas"})
     }
 }
 

@@ -34,16 +34,15 @@ const register = async (req, res) => {
         const user = new User(req.body);
 
         const registeredUser = await user.save();
-
-        res.status(201).json(registeredUser);
+        res.status(201).json({ id: registeredUser._id, name: registeredUser.name, email: registeredUser.email });
     } catch (err) {
         if (err.code === 11000) {
-            return res.status(400).json({
+            return res.status(409).json({
                 message: "Email already exists"
             });
         }
         console.error(err);
-        res.status(500).json({
+        return res.status(500).json({
             message:"Something went wrong"
         });
     }
@@ -69,7 +68,7 @@ const login = async (req, res) => {
         return res.status(200).json(token);
 
     } catch (error) {
-        return res.status(500).json({ error: error.message })
+        return res.status(500).json({ message:"Something went wrong" })
     }
 }
 
@@ -83,7 +82,7 @@ const profile = async (req, res) => {
 
         return res.status(200).json(userData);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({  message:"Something went wrong" });
     }
 }
 

@@ -23,9 +23,13 @@ const validateRegister = [
     .withMessage('Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 symbol.'),
 
     (req,res,next) => {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({errors:errors.array()})
+        const result = validationResult(req);
+        if(!result.isEmpty()){
+            const errors = result.array();
+            return res.status(400).json({
+                message:errors[0].msg,
+                fields: Object.fromEntries(errors.map(e => [e.path,e.msg]))
+            })
         }
 
         next();
