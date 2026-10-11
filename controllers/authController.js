@@ -68,6 +68,7 @@ const login = async (req, res) => {
         return res.status(200).json(token);
 
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ message:"Something went wrong" })
     }
 }
@@ -82,7 +83,8 @@ const profile = async (req, res) => {
 
         return res.status(200).json(userData);
     } catch (error) {
-        res.status(500).json({  message:"Something went wrong" });
+        console.error(error);
+       return res.status(500).json({  message:"Something went wrong" });
     }
 }
 
