@@ -17,13 +17,22 @@ const app = express();
 connectDb();
 
 app.use(cors());
-app.use(express.json());
+
+app.use(express.json({limit:'15mb'}));
 
 app.get('/health', (req,res)=>{
     res.status(200).json({status:"ok"})
 })
 app.use('/api',authRouter);
 app.use('/api/canvas',canvasRouter)
+app.use((err,req,res,next)=>{
+     console.error(err);
+    if(err.type === 'entity.too.large'){
+        return res.status(413).json({message:"Canvas is too large to save"});
+    }
+   
+    return res.status(err.status || 500).json({message:err.status?err.message:"Something went wrong"});
+})
 
 // app.listen internally create and return the http server
 const server = app.listen(PORT,()=>{ 

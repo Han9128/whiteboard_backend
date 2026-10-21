@@ -45,10 +45,10 @@ const loadCanvas = async (req,res)=>{
         
         const canvas = await Canvas.findById(canvasId);
         if(!canvas){
-            return res.status(404).json({message:"Canvas not found"})
-        };
+            return res.status(404).json({message:"Canvas not found"});
+        }
         if(canvas.owner._id.toString() !== userId && !canvas.sharedWith.includes(userId)){
-            return res.status(403).json({message:"Unauthorized to access this canvas"})
+            return res.status(403).json({message:"Unauthorized to access this canvas"});
         }
 
         return res.status(200).json({canvas,message:"canvas found"})
